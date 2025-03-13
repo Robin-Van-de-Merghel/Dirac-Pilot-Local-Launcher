@@ -1,0 +1,14 @@
+# Data In/Out
+pilot.json
+pilot.out
+pilot.cfg
+bashrc
+.env
+environmentSourceDirac
+
+# Certificates and keys
+cvmfs/etc/grid-security/.*
+cvmfs/etc/grid-security/certificates
+cvmfs/etc/grid-security/vomsdir
+cvmfs/etc/grid-security/vomses
+**/*.pem
