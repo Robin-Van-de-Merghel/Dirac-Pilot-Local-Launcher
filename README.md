@@ -33,3 +33,12 @@ mv /path/to/hostkey.pem certs/
 ```bash
 ./start-pilot.sh
 ```
+
+## Optional
+
+On mac, and even on Linux (on mac it is required because of commands compatibilities), you can start it with a Docker container:
+
+```bash
+# Build the image, run it with the name `pilot`, and --rm for auto deleting it
+docker build . -t pilot && docker run --name pilot --rm -it pilot
+```
