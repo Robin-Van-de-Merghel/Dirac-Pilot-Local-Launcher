@@ -21,7 +21,7 @@ $ Your proxy is valid until Xxx Xxx XX XX:XX:XX XXX XXXX
 
 ```bash
 # In your second terminal, located at the root of this project
-rsync -r <username>@lxplus.cern.ch:/cvmfs/lhcb.cern.ch/etc/grid-security/ cvmfs/etc/grid-security/
+rsync -a <username>@lxplus.cern.ch:/cvmfs/lhcb.cern.ch/etc/grid-security/ cvmfs/etc/grid-security/
 ```
 
 After doing every commands, you can close your `SSH` connection, and continue. Your `/grid-security/` folder will be filled with:
