@@ -42,3 +42,7 @@ On mac, and even on Linux (on mac it is required because of commands compatibili
 # Build the image, run it with the name `pilot`, and --rm for auto deleting it
 docker build . -t pilot && docker run --name pilot --rm -it pilot
 ```
+
+## Sample
+
+An example of a `pilot.cfg` run can be found [here](./example.cfg).
