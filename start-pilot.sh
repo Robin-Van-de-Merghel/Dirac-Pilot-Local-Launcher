@@ -9,8 +9,16 @@ if test -d $PILOT_PATH; then
     echo "🥹 Pilot exists, no need to import it."
 else
     echo "🤕 Pilot doesn't exists, cloning it..."
-    git clone https://github.com/DIRACGrid/Pilot $PILOT_PATH
+    
+    git clone $CUSTOM_PILOT_GIT $PILOT_PATH
 fi
+
+
+currentDir=$PWD
+    
+cd $PILOT_PATH
+git checkout $CUSTOM_GIT_BRANCH
+cd $currentDir
 
 
 echo "© Copying the schema and cfg..."
@@ -35,5 +43,3 @@ echo "🚀 Launching the pilot !"
 python $PILOT_PATH/Pilot/dirac-pilot.py --modules https://github.com/DIRACGrid/DIRAC.git:::DIRAC:::integration -M 1 -S "$SETUP" -N "$CENAME" -Q "$JENKINS_QUEUE" -n "$JENKINS_SITE" --cert --certLocation=$CERT_LOCATION --wnVO="$WNVO" --pilotUUID="$pilotUUID" --debug --CVMFS_locations="$CVMFS_LOCATION/"
 
 echo "Done."
-
-cat pilot.cfg

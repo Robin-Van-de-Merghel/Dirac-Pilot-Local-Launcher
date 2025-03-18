@@ -12,3 +12,6 @@ cvmfs/etc/grid-security/certificates
 cvmfs/etc/grid-security/vomsdir
 cvmfs/etc/grid-security/vomses
 **/*.pem
+
+# Dev
+Pilot-code
