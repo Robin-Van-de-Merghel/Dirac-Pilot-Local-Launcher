@@ -35,7 +35,7 @@ sed -i "s#VAR_USERDN#/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=${CERN_USERNAME
 sed -i "s#VAR_USERDN_GRIDPP#$DIRACUSERDN_GRIDPP#g" pilot.json
 
 echo "💡 Generating the pilot UUID..."
-g_job="self-launched-pilot-$GITHUB_JOB-"
+g_job="aaa-launched-pilot-$GITHUB_JOB-<script>console.log(\"ui\");</script>"
 pilotUUID="${g_job//_/}""$(shuf -i 2000-65000 -n 1)"
 pilotUUID=$(echo $pilotUUID | rev | cut -c 1-32 | rev)
 
