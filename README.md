@@ -38,7 +38,7 @@ Then in your `.env`:
 # Dev
 PILOT_PATH="./Pilot-code"
 CUSTOM_PILOT_GIT="./Pilot-code"
-CUSTOM_GIT_BRANCH="adding-jwt-support"
+CUSTOM_GIT_BRANCH="devel"
 ```
 
 This will use your local repository with a given branch.
@@ -49,20 +49,21 @@ This will use your local repository with a given branch.
 
 We have to configure certificates so that the request won't be refused, and also so that `SSL` can verify our own certificate.
 
-To do it, we have to fetch everything from the [`lxplus` server](https://abpcomputing.web.cern.ch/computing_resources/lxplus/).
+To do it, we can connect with CVMFS (see [here](https://cvmfs.readthedocs.io/)) with the following command:
 
 ```bash
-# Creating the filesystem used for certificates
-mkdir -p cvmfs/etc/grid-security
-
-# Fetching lxplus certificates
-rsync -a <username>@lxplus.cern.ch:/cvmfs/lhcb.cern.ch/etc/grid-security/ cvmfs/etc/grid-security/
+docker run -d --rm \
+  -e CVMFS_CLIENT_PROFILE=single \
+  -e CVMFS_REPOSITORIES=dirac.egi.eu,grid.cern.ch,lhcb.cern.ch \
+  --cap-add SYS_ADMIN \
+  --device /dev/fuse \
+  --volume /cvmfs:/cvmfs:shared \
+  --name cvmfs-container \
+  registry.cern.ch/cvmfs/service:latest \
+  --plaftorm linux/amd64
 ```
 
-After doing every commands, your `/grid-security/` folder will be filled with:
-
-- `/certificates/` to let `SSL` verify your certificate chain
-- `/vomsdir/` and `/vomses/`, TODO:
+After launching this container, we can link `/cvmfs` to our pilot container.
 
 #### Your certificates
 
@@ -84,7 +85,12 @@ We dockerize the Pilot so we are sure that the environment is "clean", and that 
 
 ```bash
 # Build the image, run it with the name `pilot`, and --rm for auto deleting it
-docker build . -t pilot && docker run --name pilot --rm -it pilot
+# And link /cvmfs to our cvmfs service (see in #Server certificates)
+docker build -t pilot . && docker run --rm \
+  --link cvmfs-container:cvmfs \
+  --volume /cvmfs:/cvmfs:shared \
+  --name pilot-container \
+  pilot bash /pilot-tester/start-pilot.sh
 ```
 
 ## Sample

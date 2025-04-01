@@ -1,17 +1,32 @@
-FROM ubuntu:20.04
+FROM debian:bullseye-slim
 
-ENV DEBIAN_FRONTEND=noninteractive 
+# Set environment variable to suppress interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update
-RUN apt-get install -y python3.9 python3.9-dev python3-pip
-RUN apt-get install -y git
-RUN apt-get install wget
+# Install dependencies including Python, pip, and other utilities
+RUN apt-get update && \
+    apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev \
+    curl \
+    wget \
+    git \
+    fuse \
+    && \
+    rm -rf /var/lib/apt/lists/*
 
+# Create a symlink for python to ensure compatibility
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# Set working directory
 WORKDIR /pilot-tester
 
+# Copy the current directory contents into the container
 COPY . .
 
+# Make the script executable
 RUN chmod +x start-pilot.sh
-RUN ln -s /usr/bin/python3.9 /usr/bin/python
 
+# Set default command to run your script
 CMD ["bash", "./start-pilot.sh"]
