@@ -16,3 +16,4 @@ cvmfs/etc/grid-security/vomses
 # Dev
 Pilot-code
 *.b64
+Miniforge3.sh

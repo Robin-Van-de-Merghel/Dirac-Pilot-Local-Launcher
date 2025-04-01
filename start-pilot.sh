@@ -1,5 +1,21 @@
 # Adapted from https://github.com/DIRACGrid/Pilot/blob/master/.github/workflows/integration.yml
 #!/bin/bash
+source .env
+
+# Verify Conda works
+source $HOME/miniforge/etc/profile.d/conda.sh
+
+conda create -n pilot-dev python=$PYTHON_VERSION -c conda-forge -y
+
+conda activate pilot-dev
+conda info
+
+if ! python --version &>/dev/null; then
+    echo "'python' command not found, defaulting to 'python3'"
+    alias python=python3
+fi
+
+python --version
 
 # Wait until /cvmfs/lhcb.cern.ch is mounted (i.e., the directory exists and is accessible)
 echo "🧹 Waiting for /cvmfs/lhcb.cern.ch to be mounted..."
@@ -15,7 +31,6 @@ echo
 
 
 echo "🧹 Getting the environment variables and cleaning pilot.out..."
-source .env
 echo "" > pilot.out
 
 if test -d $PILOT_PATH; then
@@ -49,7 +64,9 @@ sed -i "s#VAR_USERDN_GRIDPP#$DIRACUSERDN_GRIDPP#g" pilot.json
 
 
 echo "🚀 Launching the pilot !"
-python3 $PILOT_PATH/Pilot/dirac-pilot.py \
+# Warning: PilotSecret and DiracX flags may not exist depending on your pilot version
+# You can just comment them
+python $PILOT_PATH/Pilot/dirac-pilot.py \
   --modules https://github.com/DIRACGrid/DIRAC.git:::DIRAC:::integration \
   -M 1 \
   -S "$SETUP" \
@@ -61,9 +78,9 @@ python3 $PILOT_PATH/Pilot/dirac-pilot.py \
   --wnVO="$WNVO" \
   --pilotUUID="${PILOT_UUID}" \
   --debug \
-  --CVMFS_locations="$CVMFS_LOCATION/" \
-  --diracXServer="$DIRACX_SERVER" \
-  --pilotSecret="$DIRACX_PILOT_SECRET"
+  --CVMFS_locations="$CVMFS_LOCATION/"
+  # --diracXServer="$DIRACX_SERVER" \
+  # --pilotSecret="$DIRACX_PILOT_SECRET"
 
 echo "Python script exit status: $?"
 

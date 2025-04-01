@@ -84,13 +84,10 @@ mv /path/to/hostkey.pem certs/
 We dockerize the Pilot so we are sure that the environment is "clean", and that nothing will interfere.
 
 ```bash
-# Build the image, run it with the name `pilot`, and --rm for auto deleting it
-# And link /cvmfs to our cvmfs service (see in #Server certificates)
-docker build -t pilot . && docker run --rm \
-  --link cvmfs-container:cvmfs \
-  --volume /cvmfs:/cvmfs:shared \
-  --name pilot-container \
-  pilot bash /pilot-tester/start-pilot.sh
+chmod +x start-docker.sh
+
+# Start the docker and mamba
+./start-docker.sh
 ```
 
 ## Sample
