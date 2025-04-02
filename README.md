@@ -65,6 +65,23 @@ docker run -d --rm \
 
 After launching this container, we can link `/cvmfs` to our pilot container.
 
+> [!TIP]
+> On mac, it may not work, and output: `fuse: mount failed: Permission denied`. To fix it:
+
+```bash
+# Run as root, and add apparmor:unconfined
+sudo docker run -d --rm \
+  -e CVMFS_CLIENT_PROFILE=single \
+  -e CVMFS_REPOSITORIES=dirac.egi.eu,grid.cern.ch,lhcb.cern.ch \
+  --cap-add SYS_ADMIN \
+  --device /dev/fuse \
+  --volume /cvmfs:/cvmfs:shared \
+  --security-opt apparmor:unconfined \
+  --name cvmfs-container \
+  registry.cern.ch/cvmfs/service:latest \
+  --platform linux/amd64
+```
+
 #### Your certificates
 
 Get a `hostcert.pem` and a `hostkey.pem`, and move them in `./certs`:
