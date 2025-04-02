@@ -2,9 +2,6 @@
 #!/bin/bash
 source .env
 
-# Verify Conda works
-source $HOME/miniforge/etc/profile.d/conda.sh
-
 conda create -n pilot-dev python=$PYTHON_VERSION -c conda-forge -y
 
 conda activate pilot-dev
