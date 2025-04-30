@@ -8,8 +8,8 @@ conda activate pilot-dev
 conda info
 
 if ! python --version &>/dev/null; then
-    echo "'python' command not found, defaulting to 'python3'"
-    alias python=python3
+  echo "'python' command not found, defaulting to 'python3'"
+  alias python=python3
 fi
 
 python --version
@@ -26,25 +26,21 @@ echo "✅ /cvmfs/lhcb.cern.ch is mounted, proceeding with the pilot."
 # Continue with the rest of the start-pilot.sh script
 echo
 
-
 echo "🧹 Getting the environment variables and cleaning pilot.out..."
-echo "" > pilot.out
+echo "" >pilot.out
 
 if test -d $PILOT_PATH; then
-    echo "🥹 Pilot exists, no need to import it."
+  echo "🥹 Pilot exists, no need to import it."
 else
-    echo "🤕 Pilot doesn't exists, cloning it..."
-    
-    git clone $CUSTOM_PILOT_GIT $PILOT_PATH
+  echo "🤕 Pilot doesn't exists, cloning it..."
+
+  git clone $CUSTOM_PILOT_GIT $PILOT_PATH
+
+  currentDir=$PWD
+  cd $PILOT_PATH
+  git checkout $CUSTOM_GIT_BRANCH
+  cd $currentDir
 fi
-
-
-currentDir=$PWD
-    
-cd $PILOT_PATH
-git checkout $CUSTOM_GIT_BRANCH
-cd $currentDir
-
 
 echo "© Copying the schema and cfg..."
 cp $PILOT_PATH/tests/CI/pilot_newSchema.json pilot.json
@@ -58,7 +54,6 @@ sed -i "s/VAR_DIRAC_VERSION/$DIRAC_VERSION/g" pilot.json
 sed -i "s#VAR_CS#$CONFIGURATION_SERVER#g" pilot.json
 sed -i "s#VAR_USERDN#/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=${CERN_USERNAME}/CN=${CERN_USERID}/CN=${CERN_FULL_NAME}#g" pilot.json
 sed -i "s#VAR_USERDN_GRIDPP#$DIRACUSERDN_GRIDPP#g" pilot.json
-
 
 echo "🚀 Launching the pilot !"
 # Warning: PilotSecret and DiracX flags may not exist depending on your pilot version
@@ -75,10 +70,9 @@ python $PILOT_PATH/Pilot/dirac-pilot.py \
   --wnVO="$WNVO" \
   --pilotUUID="${PILOT_UUID}" \
   --debug \
-  --CVMFS_locations="$CVMFS_LOCATION/"
-  # --diracXServer="$DIRACX_SERVER" \
-  # --pilotSecret="$DIRACX_PILOT_SECRET"
-
+  --CVMFS_locations="$CVMFS_LOCATION/" \
+  --diracx_URL="$DIRACX_SERVER" \
+  --pilotSecret="$DIRACX_PILOT_SECRET"
 echo "Python script exit status: $?"
 
 echo "Done."
