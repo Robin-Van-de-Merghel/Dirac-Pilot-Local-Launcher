@@ -42,10 +42,6 @@ else
   cd $currentDir
 fi
 
-echo "© Copying the schema and cfg..."
-cp $PILOT_PATH/tests/CI/pilot_newSchema.json pilot.json
-# cp $PILOT_PATH/tests/CI/PilotLoggerTest.cfg pilot.cfg
-
 echo "✏️ Filling the data..."
 sed -i "s/VAR_JENKINS_SITE/$JENKINS_SITE/g" pilot.json
 sed -i "s/VAR_JENKINS_CE/$JENKINS_CE/g" pilot.json
@@ -69,6 +65,7 @@ python $PILOT_PATH/Pilot/dirac-pilot.py \
   --certLocation=$CERT_LOCATION \
   --wnVO="$WNVO" \
   --pilotUUID="${PILOT_UUID}" \
+  --preinstalledEnvPrefix="/cvmfs/lhcb.cern.ch/lhcbdirac" \
   --debug \
   --CVMFS_locations="$CVMFS_LOCATION/" \
   --diracx_URL="$DIRACX_SERVER" \
