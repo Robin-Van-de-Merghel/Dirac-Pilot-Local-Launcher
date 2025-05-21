@@ -69,7 +69,12 @@ python $PILOT_PATH/Pilot/dirac-pilot.py \
   --debug \
   --CVMFS_locations="$CVMFS_LOCATION/" \
   --diracx_URL="$DIRACX_SERVER" \
-  --pilotSecret="$DIRACX_PILOT_SECRET"
+  --pilotSecret="$DIRACX_PILOT_SECRET" \
+  --clientID="myDIRACClientID" \
+  --refreshTokenEvery="1" # To test
 echo "Python script exit status: $?"
 
 echo "Done."
+
+echo "pilot.cfg content:"
+cat pilot.cfg

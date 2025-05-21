@@ -1,0 +1,39 @@
+{
+	"timestamp": "2023-02-13T14:34:26.725499",
+	"CEs": {
+		"jenkins.cern.ch": {
+			"Site": "VAR_JENKINS_SITE",
+			"GridCEType": "TEST_DIRACX_FULL"
+		}
+	},
+	"Defaults": {
+		"Pilot": {
+			"RemoteLogging": "False",
+			"Commands": {
+				"TEST_DIRACX_FULL": "PilotLoginX, CheckWorkerNode, InstallDIRAC, ConfigureBasics, RegisterPilot, CheckCECapabilities, CheckWNCapabilities, ConfigureSite, ConfigureArchitecture, ConfigureCPURequirements, LaunchAgent",
+				"TEST_DIRACX": "PilotLoginX",
+				"TEST": "CheckWorkerNode, InstallDIRAC, ConfigureBasics, RegisterPilot, CheckCECapabilities, CheckWNCapabilities, ConfigureSite, ConfigureArchitecture, ConfigureCPURequirements, LaunchAgent"
+      }
+		}
+	},
+	"dteam": {
+		"Pilot": {
+			"Version": "VAR_DIRAC_VERSION",
+			"CheckVersion": "False",
+			"pilotFileServer": "lbcertifdirac70.cern.ch:8443",
+			"pilotRepoBranch": "should_not_matter",
+			"pilotRepo": "https://github.com/should_not_matter/Pilot.git",
+			"GenericPilotGroup": "dteam_pilot",
+			"GenericPilotDN": "VAR_USERDN",
+			"RemoteLogging": "True",
+			"RemoteLoggerCEsWhiteList": "jenkins.cern.ch",
+			"RemoteLoggerURL": "https://lbcertifdirac70.cern.ch:8443/WorkloadManagement/TornadoPilotLogging",
+			"RemoteLoggerTimerInterval": 0,
+			"PilotLogLevel": "DEBUG",
+			"CVMFS_locations": "/cvmfs/grid.cern.ch, /cvmfs/dirac.egi.eu"
+		}
+	},
+	"ConfigurationServers": [
+		"VAR_CS"
+	]
+}

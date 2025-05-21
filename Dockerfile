@@ -1,5 +1,4 @@
-FROM debian:bullseye-slim
-
+FROM ubuntu:latest 
 # Set environment variable to suppress interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -10,6 +9,7 @@ RUN apt-get update && \
     wget \
     git \
     fuse \
+    procps \
     && \
     rm -rf /var/lib/apt/lists/*
 
