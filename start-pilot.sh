@@ -71,7 +71,10 @@ python $PILOT_PATH/Pilot/dirac-pilot.py \
   --diracx_URL="$DIRACX_SERVER" \
   --pilotSecret="$DIRACX_PILOT_SECRET" \
   --clientID="myDIRACClientID" \
-  --refreshTokenEvery="1" # To test
+  -z \
+  -g "$DIRACX_SERVER/api/pilots/message"
+# --refreshTokenEvery="1" # \
+
 echo "Python script exit status: $?"
 
 echo "Done."

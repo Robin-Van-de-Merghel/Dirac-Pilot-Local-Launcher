@@ -2,29 +2,28 @@
 	"timestamp": "2023-02-13T14:34:26.725499",
 	"CEs": {
 		"jenkins.cern.ch": {
-			"Site": "VAR_JENKINS_SITE",
-			"GridCEType": "TEST_DIRACX_FULL"
+			"Site": "DIRAC.Jenkins.ch",
+			"GridCEType": "TEST"
 		}
 	},
 	"Defaults": {
 		"Pilot": {
 			"RemoteLogging": "False",
 			"Commands": {
-				"TEST_DIRACX_FULL": "PilotLoginX, CheckWorkerNode, InstallDIRAC, ConfigureBasics, RegisterPilot, CheckCECapabilities, CheckWNCapabilities, ConfigureSite, ConfigureArchitecture, ConfigureCPURequirements, LaunchAgent",
-				"TEST_DIRACX": "PilotLoginX",
+				"TEST_MEDIUM": "CheckWorkerNode, InstallDIRAC, ConfigureBasics",
 				"TEST": "CheckWorkerNode, InstallDIRAC, ConfigureBasics, RegisterPilot, CheckCECapabilities, CheckWNCapabilities, ConfigureSite, ConfigureArchitecture, ConfigureCPURequirements, LaunchAgent"
       }
 		}
 	},
 	"dteam": {
 		"Pilot": {
-			"Version": "VAR_DIRAC_VERSION",
+			"Version": "prod",
 			"CheckVersion": "False",
 			"pilotFileServer": "lbcertifdirac70.cern.ch:8443",
 			"pilotRepoBranch": "should_not_matter",
 			"pilotRepo": "https://github.com/should_not_matter/Pilot.git",
 			"GenericPilotGroup": "dteam_pilot",
-			"GenericPilotDN": "VAR_USERDN",
+			"GenericPilotDN": "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=rvandeme/CN=886149/CN=Robin Rene Guy Van De Merghel",
 			"RemoteLogging": "True",
 			"RemoteLoggerCEsWhiteList": "jenkins.cern.ch",
 			"RemoteLoggerURL": "https://lbcertifdirac70.cern.ch:8443/WorkloadManagement/TornadoPilotLogging",
@@ -34,6 +33,6 @@
 		}
 	},
 	"ConfigurationServers": [
-		"VAR_CS"
+		"https://lbcertifdirac70.cern.ch:9135/Configuration/Server"
 	]
 }
