@@ -51,6 +51,10 @@ sed -i "s#VAR_CS#$CONFIGURATION_SERVER#g" pilot.json
 sed -i "s#VAR_USERDN#/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=${CERN_USERNAME}/CN=${CERN_USERID}/CN=${CERN_FULL_NAME}#g" pilot.json
 sed -i "s#VAR_USERDN_GRIDPP#$DIRACUSERDN_GRIDPP#g" pilot.json
 
+
+[ -z "$PILOT_UUID" ] && PILOT_UUID=$(python -c "import random, string; print('stamp:'+''.join(random.choices(string.ascii_letters + string.digits, k=20)))")
+
+
 echo "🚀 Launching the pilot !"
 # Warning: PilotSecret and DiracX flags may not exist depending on your pilot version
 # You can just comment them
@@ -81,3 +85,5 @@ echo "Done."
 
 echo "pilot.cfg content:"
 cat pilot.cfg
+
+echo "To find me, pilotStamp: $PILOT_UUID"
